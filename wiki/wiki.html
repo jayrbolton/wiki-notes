@@ -251,6 +251,12 @@ Error message and password prompt
 
 <li>Entropy</li>
 
+<li>Escherichia</li>
+
+<li>Gene</li>
+
+<li>General Language Idea 1</li>
+
 <li>KBase</li>
 
 <li>KBase Search</li>
@@ -9872,8 +9878,8 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)
 <div created="20200915212903897" modified="20200915212903897" title="$:/state/folded/WOD Weaknesses">
 <pre>hide</pre>
 </div>
-<div created="20200915200944171" modified="20200915214450920" title="$:/state/showeditpreview">
-<pre>no</pre>
+<div created="20200915200944171" modified="20200918165620518" title="$:/state/showeditpreview">
+<pre>yes</pre>
 </div>
 <div created="20200915200920467" modified="20200915200920467" title="$:/state/ShowPaletteEditor">
 <pre>yes</pre>
@@ -9893,7 +9899,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div created="20200915191108437" list="" modified="20200915214726318" title="$:/StoryList">
+<div created="20200915191108437" list="[[General Language Idea 1]] Gene Escherichia" modified="20200915214726318" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -9954,7 +9960,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)
     }
 }</pre>
 </div>
-<div created="20200915183952500" modified="20200915203728744" title="$:/temp/NewTagName">
+<div created="20200915183952500" modified="20200916001445659" title="$:/temp/NewTagName">
 <pre></pre>
 </div>
 <div created="20200915201052146" modified="20200915201054313" title="$:/temp/search">
@@ -10119,6 +10125,74 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)
 * How is it that heat dispersing to other objects increases the disorder and the number of possible states in the system? 
 ** Example of ice to liquid water to water vapor. Heat increases, entropy increases
 ** More heat = more atomic distribution = increased entropy = higher disorder
+</pre>
+</div>
+<div created="20200916000135690" modified="20200916002515206" tags="bio genomics thing qs" title="Escherichia" type=" ">
+<pre>* Is a genus
+* Is [[Gram Negative]]
+* Child of family [[Enterobacteriaceae]]
+* Is a [[Rod-Shaped Bacteria]]
+* Usually motile with flagella
+* Both [[Aerobic]] and [[Anaerobic]] (facultative)
+* Provides vitamin K for warm-blooded hosts from within their gut
+* Do not decarboxylate ([[Decarboxylation]]) [[Lysine]
+* Do not hydrolize ([[Hydrolysis]]) [[Arginine]]
+
+!! Questions
+* I read somewhere (where?) that it has high ANI (above 95%) with [[Shigella]], but they are considered different genera. Why? By what measure are they separated?
+** What is the ANI between Shigella and E.Coli?</pre>
+</div>
+<div created="20200916001033165" modified="20200916001514805" tags="bio concept genomics qs todos" title="Gene">
+<pre>!! TODO
+* Define, list facts
+
+!! Questions
+* What does a real gene look like?
+* How exactly does it get transcribed and translated?
+* What are its non coding sequences? What is included, what is left out, how is it ordered?
+* What constitutes meaningful vs. non-meaningful gene changes (evolutionarily)?
+** Change in functionality or not
+</pre>
+</div>
+<div created="20200917002607510" modified="20200918165626909" tags="" title="General Language Idea 1">
+<pre>* Imperative
+* Modules and functions
+* Can be either compiled or interpreted
+** Has its own shell that is just as convenient as bash
+*** Ie. short file-system commands like `ls`
+* Transpiles to C
+* Imports using file paths
+* No garbage collection
+* Very small and simple
+* Ability to abstract types, as simple as possible
+* Strong data types, something like FlatBuffers
+* Support for generators and/or coroutines
+* Logo style syntax
+
+Garbage collection happens with a context manager. Every type can be declared using a block, and is deallocated at the end:
+
+`
+use Type1 data1
+    Type2 data2 {
+    # Use data1 and data2 here
+}
+# Now it's deallocated
+`
+
+Concurrency is handled with something similar to async/await, but better?
+
+You don't have to mark a function as async, you can call any function in a thread or process:
+
+`
+use HTTPResult deferred {
+    deferred = thread request.get &quot;spacejam.com&quot;
+    # Do some more stuff here concurrently with IO
+    # Block on the result to use it 
+    await deferred
+    # Use the result
+    print deferred.val.body
+}
+`
 </pre>
 </div>
 <div created="20200915183940058" modified="20200915184030938" tags="kbase" title="KBase" type="text/vnd.tiddlywiki">
