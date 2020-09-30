@@ -201,6 +201,8 @@ Error message and password prompt
 
 <li>$:/state/folded/WOD Weaknesses</li>
 
+<li>$:/state/image-picker/system--1365487189</li>
+
 <li>$:/state/showeditpreview</li>
 
 <li>$:/state/ShowPaletteEditor</li>
@@ -251,7 +253,7 @@ Error message and password prompt
 
 <li>$:/view</li>
 
-<li>Draft of 'New Tiddler'</li>
+<li>Dot product</li>
 
 <li>Entropy</li>
 
@@ -272,6 +274,8 @@ Error message and password prompt
 <li>Operon</li>
 
 <li>Pangenome Research</li>
+
+<li>Perceptron</li>
 
 <li>Project Ideas</li>
 
@@ -9885,6 +9889,9 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div created="20200915212903897" modified="20200915212903897" title="$:/state/folded/WOD Weaknesses">
 <pre>hide</pre>
 </div>
+<div created="20200930232029306" modified="20200930232031081" title="$:/state/image-picker/system--1365487189">
+<pre>hide</pre>
+</div>
 <div created="20200915200944171" modified="20200918165620518" title="$:/state/showeditpreview">
 <pre>yes</pre>
 </div>
@@ -9909,7 +9916,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div created="20200929203311387" list="[[Draft of 'New Tiddler']] [[General Language Idea 1]]" modified="20200930193729411" title="$:/StoryList">
+<div created="20200929203311387" list="[[Dot product]] Perceptron [[General Language Idea 1]]" modified="20200930193729411" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -10118,18 +10125,13 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div created="20200915184723312" modified="20200915184739124" title="$:/view">
 <pre>classic</pre>
 </div>
-<div created="20200930230915043" draft.of="New Tiddler" draft.title="Perceptron" modified="20200930231557405" tags="concept compsci ml" title="Draft of 'New Tiddler'">
-<pre>How they work
+<div created="20200930231837114" modified="20200930232247552" tags="concept math" title="Dot product">
+<pre>* Two input matrices of equal length containing floats or ints
+* Returns a ''single number''
+* It simply matches up every cell in one matrix with every cell in the other, multiplies them, and sums up all cells
 
-* Binary input to binary output
-* Every input can have a unique weight to change its importance for the output
-* The output is determined by the sum of the weighted inputs
-* Has a parameter, the ''threshold'', which the sum must be over to activate the output and give a 1
-
-History
-
-* Developed in the 50s and 60s by Frank Rosenblatt
-* They come from previous work that turns basic neural behavior (esp the activation threshold) into a propositional logic</pre>
+[img[https://wikimedia.org/api/rest_v1/media/math/render/svg/5bd0b488ad92250b4e7c2f8ac92f700f8aefddd5]]
+</pre>
 </div>
 <div created="20200915214113720" modified="20200915214514068" tags="bio physics concept" title="Entropy">
 <pre>!!! Interests:
@@ -10327,6 +10329,19 @@ use HTTPResult deferred {
 * Given two closely related strains in different species, maybe in the same genus, do they have any genes that have an exact DNA or transcription match? How many? Is exact sequence match for a gene useful or do you always need something like blast/blastp?
 ** And how about with proteins?
 </pre>
+</div>
+<div created="20200930230915043" modified="20200930231835238" tags="concept compsci ml" title="Perceptron">
+<pre>How they work
+
+* Binary input to binary output
+* Every input can have a unique weight to change its importance for the output
+* The output is determined by the sum of the weighted inputs
+* Has a parameter, the ''threshold'', which the sum must be over to activate the output and give a 1
+
+History
+
+* Developed in the 50s and 60s by Frank Rosenblatt
+* They come from previous work that turns basic neural behavior (esp the activation threshold) into a propositional logic</pre>
 </div>
 <div created="20200929203335736" modified="20200929203521292" tags="project index" title="Project Ideas">
 <pre>Actionable
