@@ -9916,7 +9916,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div created="20200929203311387" list="[[Dot product]] Perceptron [[General Language Idea 1]]" modified="20200930193729411" title="$:/StoryList">
+<div created="20200929203311387" list="Perceptron [[General Language Idea 1]]" modified="20200930193729411" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -10330,18 +10330,25 @@ use HTTPResult deferred {
 ** And how about with proteins?
 </pre>
 </div>
-<div created="20200930230915043" modified="20200930231835238" tags="concept compsci ml" title="Perceptron">
+<div created="20200930230915043" modified="20200930235813565" tags="concept compsci ml" title="Perceptron">
 <pre>How they work
 
 * Binary input to binary output
 * Every input can have a unique weight to change its importance for the output
 * The output is determined by the sum of the weighted inputs
 * Has a parameter, the ''threshold'', which the sum must be over to activate the output and give a 1
+* The ''bias'' is a different way of describing the threshold. The [[Dot product]] of `* weights inputs` ''plus'' the bias must be ''greater than zero'' to get an output of 1
 
 History
 
 * Developed in the 50s and 60s by Frank Rosenblatt
-* They come from previous work that turns basic neural behavior (esp the activation threshold) into a propositional logic</pre>
+* They come from previous work that turns basic neural behavior (esp the activation threshold) into a propositional logic
+
+Why they aren't used
+
+* To do machine learning, we need to make small tweaks in the weights and biases to get small changes in the output
+* With perceptrons, small tweaks either have no effect or flip the output entirely
+* Instead, we need continuous 0-1 float values and such as in [[Sigmoid neurons]]</pre>
 </div>
 <div created="20200929203335736" modified="20200929203521292" tags="project index" title="Project Ideas">
 <pre>Actionable
