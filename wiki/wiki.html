@@ -283,6 +283,8 @@ Error message and password prompt
 
 <li>ResearchFair</li>
 
+<li>Sigmoid neurons</li>
+
 <li>Snowflake Simulator</li>
 
 <li>Text fragment</li>
@@ -9916,7 +9918,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div created="20200929203311387" list="Perceptron [[General Language Idea 1]]" modified="20200930193729411" title="$:/StoryList">
+<div created="20201001234458259" list="Perceptron [[Sigmoid neurons]]" modified="20201002001146147" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -9964,7 +9966,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
         },
         &quot;$:/info/browser/screen/width&quot;: {
             &quot;title&quot;: &quot;$:/info/browser/screen/width&quot;,
-            &quot;text&quot;: &quot;1440&quot;
+            &quot;text&quot;: &quot;1600&quot;
         },
         &quot;$:/info/browser/screen/height&quot;: {
             &quot;title&quot;: &quot;$:/info/browser/screen/height&quot;,
@@ -9980,8 +9982,8 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div created="20200915183952500" modified="20200929203348330" title="$:/temp/NewTagName">
 <pre></pre>
 </div>
-<div created="20200915201052146" modified="20200915201054313" title="$:/temp/search">
-<pre></pre>
+<div created="20200915201052146" modified="20201002001142942" title="$:/temp/search">
+<pre>sigmoid</pre>
 </div>
 <div created="20200915005126107" modified="20200922212752123" title="$:/theme">
 <pre>$:/themes/tiddlywiki/vanilla</pre>
@@ -10330,7 +10332,7 @@ use HTTPResult deferred {
 ** And how about with proteins?
 </pre>
 </div>
-<div created="20200930230915043" modified="20200930235813565" tags="concept compsci ml" title="Perceptron">
+<div created="20200930230915043" modified="20201001235823471" tags="concept compsci ml" title="Perceptron">
 <pre>How they work
 
 * Binary input to binary output
@@ -10348,7 +10350,17 @@ Why they aren't used
 
 * To do machine learning, we need to make small tweaks in the weights and biases to get small changes in the output
 * With perceptrons, small tweaks either have no effect or flip the output entirely
-* Instead, we need continuous 0-1 float values and such as in [[Sigmoid neurons]]</pre>
+* Instead, we need continuous 0-1 float values and such as in [[Sigmoid neurons]]
+
+Ideas
+
+* Perceptrons are not used because they are hard to train incrementally. What if, instead of the emphasis being on training weights and biases, we focus on genetic/evolutionary algorithms that randomly mutate everything about the network, including topology.
+** How to distinguish between single-lifetime learning vs multigenerational fitness
+*** Single lifetime can change weights, biases, and topology
+*** Keep a genome which determines your starting state
+*** The genome records weights, biases, and topology of the network when it is &quot;born&quot; (ie before training)
+*** While training, everything can then change with every input
+*** When a network survives and reproduces, randomly mutate the &quot;genome&quot; (ie. the starting state)</pre>
 </div>
 <div created="20200929203335736" modified="20200929203521292" tags="project index" title="Project Ideas">
 <pre>Actionable
@@ -10561,6 +10573,30 @@ R1.2. (Meta)data are associated with detailed provenance
 *** What program, what was output, and what was input
 
 R1.3. (Meta)data meet domain-relevant community standards</pre>
+</div>
+<div created="20201002001149664" modified="20201002002423634" title="Sigmoid neurons">
+<pre>Definitions
+* Sigmoid function is `sig x &lt;- div 1 (+ 1 (^ euler (- x)))`
+
+
+Imperative sigmoid in my weird pseudo lang:
+
+`
+fun sigmoid
+arg x Vec flt &quot;Input values&quot;
+arg w Vec flt &quot;Weights for each input&quot;
+arg bias flt &quot;Bias value for all input&quot; {
+  assert eq (len x) (len w)
+  sum: flt &lt;- 0.0f
+  # Calculate sum of all inputs
+  iter i 0 (len x) {
+    prod &lt;- * (@ w i) (@ x i)
+    sum &lt;- + sum (- prod bias)
+  }
+  sum &lt;- neg sum
+  ret &lt;- div 1 (+ 1 (exp sum))
+}
+`</pre>
 </div>
 <div created="20200915203733528" modified="20200915210730401" tags="project idea" title="Snowflake Simulator">
 <pre>Adapt the Netlogo implementation into a browser and canvas implementation
