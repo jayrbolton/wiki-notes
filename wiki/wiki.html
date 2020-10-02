@@ -285,6 +285,8 @@ Error message and password prompt
 
 <li>Sigmoid neurons</li>
 
+<li>Simulation of real neurons</li>
+
 <li>Snowflake Simulator</li>
 
 <li>Text fragment</li>
@@ -292,6 +294,8 @@ Error message and password prompt
 <li>TiddlyWiki as personal website</li>
 
 <li>TiddlyWiki saving and loading</li>
+
+<li>Toread</li>
 
 <li>Ukkonen's Algorithm in Rust</li>
 
@@ -9918,7 +9922,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div created="20201001234458259" list="Perceptron [[Sigmoid neurons]]" modified="20201002001146147" title="$:/StoryList">
+<div created="20201001234458259" list="Toread [[Simulation of real neurons]] [[Sigmoid neurons]]" modified="20201002001146147" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -10574,8 +10578,9 @@ R1.2. (Meta)data are associated with detailed provenance
 
 R1.3. (Meta)data meet domain-relevant community standards</pre>
 </div>
-<div created="20201002001149664" modified="20201002004416498" tags="concept compsci math" title="Sigmoid neurons">
+<div created="20201002001149664" modified="20201002011846102" tags="concept compsci math" title="Sigmoid neurons">
 <pre>Facts
+
 * Sigmoid function is `sig x &lt;- div 1 (+ 1 (^ euler (- x)))`
 * When `w*x + b` is large, the output of the sigmoid is closer to 1
 * Very common (perhaps most common) activation function used in neural networks
@@ -10600,6 +10605,18 @@ arg bias flt &quot;Bias value for all input&quot; {
   ret &lt;- div 1 (+ 1 (exp sum))
 }
 `</pre>
+</div>
+<div created="20201002004420205" modified="20201002004935878" tags="compsci bio concept" title="Simulation of real neurons">
+<pre>Try to run ML-like simulations, but modeled closely after real biological models of neurons, with the understanding that it may be statistically less useful:
+
+* Use the step function for activation
+* Use a refractory period after a neuron fires
+* Input to a neuron is continuous, output is continuous, but the activation is a step function
+
+Resources:
+
+* TOREAD: Hodgkins Huxley Model https://neuronaldynamics.epfl.ch/online/Ch2.S2.html
+* Biological nueron model: https://en.wikipedia.org/wiki/Biological_neuron_model</pre>
 </div>
 <div created="20200915203733528" modified="20200915210730401" tags="project idea" title="Snowflake Simulator">
 <pre>Adapt the Netlogo implementation into a browser and canvas implementation
@@ -10642,6 +10659,10 @@ Two laptop example:
 # I edit the wiki on laptop A and save it to the repo
 # On laptop B, I download the wiki, edit it, and save to the repo
 # On laptop A, I re-download the wiki, overwriting my local copy, and open it</pre>
+</div>
+<div created="20201002004850587" modified="20201002004922990" tags="" title="Toread">
+<pre>* Hodgkins Huxley Neuronal model: https://neuronaldynamics.epfl.ch/online/Ch2.S2.html
+* Biological nueron model: https://en.wikipedia.org/wiki/Biological_neuron_model</pre>
 </div>
 <div created="20200915210744461" modified="20200915210831338" tags="project idea" title="Ukkonen's Algorithm in Rust">
 <pre>* Would be a great coding exercise
