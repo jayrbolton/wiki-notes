@@ -255,6 +255,8 @@ Error message and password prompt
 
 <li>Dot product</li>
 
+<li>Draft of 'Frontend framework 1'</li>
+
 <li>Entropy</li>
 
 <li>Escherichia</li>
@@ -9924,7 +9926,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div list="[[Frontend framework 1]]" title="$:/StoryList">
+<div list="" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -10141,6 +10143,150 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 [img[https://wikimedia.org/api/rest_v1/media/math/render/svg/5bd0b488ad92250b4e7c2f8ac92f700f8aefddd5]]
 </pre>
 </div>
+<div created="20201006225734220" modified="20201006225734220" title="Draft of 'Frontend framework 1'">
+<pre>The high-level idea is to have a frontend GUI programming framework that would try and reflect programming principles from Jonathan Blow:
+
+* As close to the metal as possible. In the browser, you can't get very far. But you can remove a lot of the extra layers and barriers to entry: bundling, packaging, transpiling
+** Does not hide or cover how things actually work, but provides a framework to make it more efficient to work with the dom and css
+** Perhaps makes use of web assembly, low-level memory buffers, and structs, `TypedArrays,` etc
+** No virtual dom or functional programming stuff. Imperative
+** Uses strong and well-defined types
+** Assumes the programmer is competent and does not try to guard against mistakes
+** Prioritizes performance
+
+* Make use of `IndexedDB` for the application state
+* Cycle of Backend -&gt; `IndexedDB` -&gt; Renderer -&gt; `IndexedDB` -&gt; Backend
+* Avoid npm and any packaging by including everything you need in the framework
+** Some set of generic utilities
+* Could include cross-platform binaries for some kind of dev tool
+* HTML5, ECMAScript 5, and CSS
+* Make use of custom node attributes
+** Like viewscript, all in the attributes?
+* Make it easy to manually play with and test individual components separately
+
+!! Data flow
+
+# Session data comes in from IndexedDB
+## User configures the local database schema
+## The local DB has events for CRUD actions
+# Backend data is retrieved via fetch calls
+## User configures the fetch params
+## The backend is defined as a set of fetch calls to retrieve and update data
+## The backend has events for every fetch start/progress/end
+## The backend can be synced with the localDB in a user defined way
+## Dev can write functions that transform data retrieved from pushed into the backend
+# Dom interaction triggers fetch calls and/or updates to IndexedDB or the backend, and vice versa
+
+In-memory state could use memory buffers (eg. DataView or Construct-JS), while persistent state uses IndexedDB. All use json-schema.
+
+Dev mode would do json schema validation of everything.
+
+! Data first?
+
+Start with the database; define schemas, which can be nested and composed. Initialize the database using a schema. Then you can have functions to CRUD on the database, with a dev and prod mode and schema validation. Register event handlers for database updates.
+
+Now, the UI components. All they need is some rendering capability with local state, no virtual dom.`
+
+! UI Components and data
+
+* A UI component is defined without interaction with the backend or IndexedDB, but has local state controlling dynamic elements (eg. drodown open/close/highlight state). This is ''Component local state''. A component is independently defined without any coupling to local DB or backend. 
+* When a component is placed in the layout, it can be bound to localDB or backend events
+** Dev defines what component local events are bound to local DB or backend events
+** Dev defines what local DB or backend events update component local state
+
+# Define a generic set of json schemas for the whole app
+# Define a generic set of transformations from schema to schema
+# Define a set of schemas for the local DB
+# Define a set of schemas for each component's local state
+# Define a set of backend schemas
+## Define urls and fetch params for each schema
+## Some backend data is readable only, or readable+writable
+# Define transformations between backend and local DB, localDB and components, and backend and components
+## When a local component's state changes, the transformation is applied and updates the localDB or the backend
+
+! Reusability
+
+This is the most important consideration: if we take away packaging and bundling, we must still have the ability to reuse components and extend/modify them.
+
+All components should be defined as templates using local state, separate from the page layout.
+
+Local state can be declared and modeled using something like json schema or a type struct
+
+Elements like checkboxes can be bound to local state such as bools.
+
+When a component is placed in the layout, you can specify what data in the local state is bound to what data in the localDB
+
+One possibility: sort of web component style, where each component has its own dedicated html file. Within that file, you have a script tag for the JSON schema (with defaults), a style tag for styling, and a javascript tag. A CLI binary would have to manage rendering the file, and bundling other component imports (commands for build, render, dev, validate, etc)
+
+Attributes
+
+* Ability to import other components
+* Components do not need UI
+* Component state is persisted to indexedDB
+* Component state is auto-namespaced
+* Ability 
+
+! Examples
+
+Todo list item
+
+`
+&lt;script&gt;
+component.schema = {
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [&quot;name&quot;, &quot;done&quot;],
+  &quot;properties&quot;: {
+    &quot;name&quot;: {&quot;type&quot;: &quot;string&quot;},
+    &quot;done&quot;: {&quot;type&quot;: &quot;boolean&quot;, &quot;default&quot;: &quot;false&quot;}
+  }
+}
+// Javascript or typescript can go here
+&lt;/script&gt;
+
+&lt;style&gt;
+/* Ordinary CSS goes here */
+p {
+  font-weight: bold;
+  margin-left: 1rem;
+}
+&lt;/style&gt;
+
+&lt;div&gt;
+&lt;!-- Actual HTML templating goes here, using attribute binding --&gt;
+  &lt;input type=&quot;checkbox&quot; _checked=&quot;done&quot;&gt;
+  &lt;p _text='name'&gt;&lt;/p&gt;
+&lt;/div&gt;
+`
+
+Todo list
+
+`
+&lt;import rel=&quot;todoItem.html&quot;&gt;
+&lt;script&gt;
+const todoItem = component.include(&quot;todoItem.html&quot;)
+component.schema = {
+  type: object,
+  properties: {
+    items: {
+      type: array, items: {type: todoItem.schema}
+    },
+    allDone: {type: &quot;boolean&quot;, default: false}
+  }
+}
+
+
+&lt;/script&gt;
+&lt;style&gt;
+/* Add some style to a child component */
+.item div p {
+  color: pink;
+}
+&lt;/style&gt;
+&lt;div _repeat=&quot;todoItems&quot;&gt;
+  &lt;div class='item' _each&gt;&lt;/div&gt;
+&lt;/div&gt;
+`</pre>
+</div>
 <div created="20200915214113720" modified="20200915214514068" tags="bio physics concept" title="Entropy">
 <pre>!!! Interests:
 * The associations between entropy and biology
@@ -10173,8 +10319,16 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 * I read somewhere (where?) that it has high ANI (above 95%) with [[Shigella]], but they are considered different genera. Why? By what measure are they separated?
 ** What is the ANI between Shigella and E.Coli?</pre>
 </div>
-<div created="20201006204348602" modified="20201006222034061" tags="concept" title="Frontend framework 1" type="">
-<pre>The high-level idea is to have a frontend GUI programming framework that would try and reflect programming principles from Jonathan Blow:
+<div created="20201006204348602" modified="20201007002109220" tags="concept" title="Frontend framework 1" type="">
+<pre>''High level conclusions''
+
+* Use a cross-compiled statically linked binary CLI to compile and render. Don't use NPM.
+* Ability to render and develop components independently
+* Driven by data models
+* Data binding based rendering
+* CSS shadowing with the ability to extend and overwrite child component styling.
+
+The high-level idea is to have a frontend GUI programming framework that would try and reflect programming principles from Jonathan Blow:
 
 * As close to the metal as possible. In the browser, you can't get very far. But you can remove a lot of the extra layers and barriers to entry: bundling, packaging, transpiling
 ** Does not hide or cover how things actually work, but provides a framework to make it more efficient to work with the dom and css
@@ -10183,15 +10337,14 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 ** Uses strong and well-defined types
 ** Assumes the programmer is competent and does not try to guard against mistakes
 ** Prioritizes performance
-
 * Make use of `IndexedDB` for the application state
-* Cycle of Backend -&gt; `IndexedDB` -&gt; Renderer -&gt; `IndexedDB` -&gt; Backend
 * Avoid npm and any packaging by including everything you need in the framework
 ** Some set of generic utilities
 * Could include cross-platform binaries for some kind of dev tool
 * HTML5, ECMAScript 5, and CSS
 * Make use of custom node attributes
 ** Like viewscript, all in the attributes?
+* Make it easy to manually play with and test individual components separately
 
 !! Data flow
 
@@ -10203,16 +10356,22 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 ## The backend is defined as a set of fetch calls to retrieve and update data
 ## The backend has events for every fetch start/progress/end
 ## The backend can be synced with the localDB in a user defined way
-## Dev can write functions that transform data retrieved from pushed into the backend
+## Dev can write functions that transform data retrieved from and pushed into the backend
 # Dom interaction triggers fetch calls and/or updates to IndexedDB or the backend, and vice versa
 
 In-memory state could use memory buffers (eg. DataView or Construct-JS), while persistent state uses IndexedDB. All use json-schema.
 
 Dev mode would do json schema validation of everything.
 
+! Data first?
+
+Start with the database; define schemas, which can be nested and composed. Initialize the database using a schema. Then you can have functions to CRUD on the database, with a dev and prod mode and schema validation. Register event handlers for database updates.
+
+Now, the UI components simply use custom attributes in the DOM that bind to properties in the database. These custom attributes are defined by javascript functions, which have access to the dom node and are called every time the database updates.
+
 ! UI Components and data
 
-* A UI component is defined without interaction with the backend or IndexedDB, but has local state controlling dynamic elements (eg. drodown open/close/highlight state). This is ''Component local state''. A component is independently defined without any coupling to local DB or backend. 
+* A UI component is defined without interaction with the backend or IndexedDB, but has local state controlling dynamic elements (eg. dropdown open/close/highlight state). This is ''Component local state''. A component is independently defined without any coupling to local DB or backend. 
 * When a component is placed in the layout, it can be bound to localDB or backend events
 ** Dev defines what component local events are bound to local DB or backend events
 ** Dev defines what local DB or backend events update component local state
@@ -10239,32 +10398,75 @@ Elements like checkboxes can be bound to local state such as bools.
 
 When a component is placed in the layout, you can specify what data in the local state is bound to what data in the localDB
 
+One possibility: sort of web component style, where each component has its own dedicated html file. Within that file, you have a script tag for the JSON schema (with defaults), a style tag for styling, and a javascript tag. A CLI binary would have to manage rendering the file, and bundling other component imports (commands for build, render, dev, validate, etc)
+
+Attributes
+
+* Ability to import other components
+* Components do not need UI
+* Component state is persisted to indexedDB
+* Component state is auto-namespaced
+* Ability 
+
 ! Examples
 
-Todo list using attributes
+Todo list item
 
 `
-# timer component, local state only
-name: timer
-schema:
-  type: object
-  properties:
-    elapsed: {type: integer, default: 0}
-    limit: {type: integer, default: 10000}
-    state:
-      type: string
-      enum: [start, finished, running, paused]
-      default: start
-components:
-  progress:
+&lt;script&gt;
+component.schema = {
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [&quot;name&quot;, &quot;done&quot;],
+  &quot;properties&quot;: {
+    &quot;name&quot;: {&quot;type&quot;: &quot;string&quot;},
+    &quot;done&quot;: {&quot;type&quot;: &quot;boolean&quot;, &quot;default&quot;: &quot;false&quot;}
+  }
+}
+// Javascript or typescript can go here
+&lt;/script&gt;
 
-    html: |
-      &lt;div&gt;
-      &lt;/div&gt;
-layout:
-  - name: progress
-  - name: playPauseButton
-  - name: resetButton
+&lt;style&gt;
+/* Ordinary CSS goes here */
+p {
+  font-weight: bold;
+  margin-left: 1rem;
+}
+&lt;/style&gt;
+
+&lt;div&gt;
+&lt;!-- Actual HTML templating goes here, using attribute binding --&gt;
+  &lt;input type=&quot;checkbox&quot; _checked=&quot;done&quot;&gt;
+  &lt;p _text='name'&gt;&lt;/p&gt;
+&lt;/div&gt;
+`
+
+Todo list
+
+`
+&lt;import rel=&quot;todoItem.html&quot;&gt;
+&lt;script&gt;
+const todoItem = component.include(&quot;todoItem.html&quot;)
+component.schema = {
+  type: object,
+  properties: {
+    items: {
+      type: array, items: {type: todoItem.schema}
+    },
+    allDone: {type: &quot;boolean&quot;, default: false}
+  }
+}
+
+
+&lt;/script&gt;
+&lt;style&gt;
+/* Add some style to a child component */
+.item div p {
+  color: pink;
+}
+&lt;/style&gt;
+&lt;div _repeat=&quot;todoItems&quot;&gt;
+  &lt;div class='item' _each&gt;&lt;/div&gt;
+&lt;/div&gt;
 `</pre>
 </div>
 <div created="20200916001033165" modified="20200916001514805" tags="bio concept genomics qs todos" title="Gene">
