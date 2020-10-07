@@ -279,6 +279,8 @@ Error message and password prompt
 
 <li>Perceptron</li>
 
+<li>Postgres abstraction layer</li>
+
 <li>Project Ideas</li>
 
 <li>Promoter</li>
@@ -9926,7 +9928,7 @@ very-muted-foreground: rgba(240, 196, 117, 0.7)</pre>
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div created="20201007014802242" list="[[Robust networked applications]] [[Frontend framework 1]]" modified="20201007043655427" title="$:/StoryList">
+<div created="20201007014802242" list="[[Postgres abstraction layer]]" modified="20201007043655427" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -10521,6 +10523,19 @@ Ideas
 *** The genome records weights, biases, and topology of the network when it is &quot;born&quot; (ie before training)
 *** While training, everything can then change with every input
 *** When a network survives and reproduces, randomly mutate the &quot;genome&quot; (ie. the starting state)</pre>
+</div>
+<div created="20201007045451379" modified="20201007051536175" tags="idea" title="Postgres abstraction layer">
+<pre>''Conclusions'': It's probably best to just immerse yourself in Postgresql and embrace all its features and extensions. Have Psql do the heavy lifting, with a light Python application layer in front of it for stuff like migrations and glue code.
+
+Use an easier schema language that generates a Postgresql schema, application layer (following good conventions), and an admin UI. 
+
+Schema language specifies
+
+* Data specifications for every table, including relationships
+* user and group roles and access levels
+* Migrations
+
+A web UI allows you to write and update the schema and administer/query the database.</pre>
 </div>
 <div created="20200929203335736" modified="20200929203521292" tags="project index" title="Project Ideas">
 <pre>Actionable
